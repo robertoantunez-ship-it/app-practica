@@ -6,7 +6,7 @@ export interface FavoriteItem {
 }
 
 @Injectable({
-  providedIn: 'root' // Inyección de dependencia global
+  providedIn: 'root' 
 })
 export class FavoritesService {
   private items: FavoriteItem[] = [

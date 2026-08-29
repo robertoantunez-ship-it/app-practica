@@ -11,18 +11,18 @@ import { FavoritesService, FavoriteItem } from './favorites.service'
 })
 export class FavoritesComponent implements OnInit {
   platformMessage: string = 'Ejecutando en otra plataforma'
-  items: FavoriteItem[] = [] // 1. Declaración requerida para la plantilla HTML
+  items: FavoriteItem[] = [] 
 
   constructor(
     private routerExtensions: RouterExtensions,
-    private favoritesService: FavoritesService // 2. Inyección del servicio
+    private favoritesService: FavoritesService 
   ) { }
 
   ngOnInit(): void {
     if (isAndroid) {
       this.platformMessage = 'Aplicación ejecutándose en Android'
     }
-    this.items = this.favoritesService.getItems() // 3. Carga de datos
+    this.items = this.favoritesService.getItems() 
   }
 
   onDrawerButtonTap(): void {

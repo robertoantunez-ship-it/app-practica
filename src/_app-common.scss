@@ -24,10 +24,10 @@
 .page__content {
   &-icon,
   &-placeholder {
-    color: const(grey);
+    color: const(rgb(0, 0, 0));
     font-size: 20;
     vertical-align: center;
-    horizontal-align: center;
+    text-align: center;
   }
 
   &-icon {
@@ -36,8 +36,21 @@
     margin-top: 20%;
   }
 }
+.card {
+    background-color: #29bcba;
+    border-radius: 8;
+    font-size: medium;
+    font-weight: bold;
+    
+    
+}
+
+.page__content {
+    background-color: #e2e8f0;
+}
+
 
 // Drawer navigation custom styles
 .nt-drawer__header-image {
-  color: const(grey);
+  color: const(rgb(249, 83, 83));
 }
