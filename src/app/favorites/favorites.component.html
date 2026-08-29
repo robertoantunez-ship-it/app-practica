@@ -1,0 +1,21 @@
+<ActionBar class="action-bar">
+    <NavigationButton ios:visibility="collapsed" icon="res://logo" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <ActionItem icon="res://logo" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
+    <Label class="action-bar-title" text="Favoritos"></Label>
+</ActionBar>
+
+<GridLayout class="page__content">
+    <StackLayout class="nt-form" verticalAlignment="center">
+        <Label class="page__content-icon far fa-star" text=""></Label>
+        
+        <!-- Mensaje condicional por plataforma (Android / iOS) -->
+        <Label class="platform-title" [text]="platformMessage" textWrap="true"></Label>
+        
+        <!-- Lista renderizada con la directiva *ngFor desde el servicio -->
+        <StackLayout class="m-15">
+            <Label *ngFor="let item of items" [text]="item.name" class="h3 text-center"></Label>
+        </StackLayout>
+
+        <Button text="Ver Detalle" (tap)="onGoToDetail()" class="btn btn-primary"></Button>
+    </StackLayout>
+</GridLayout>

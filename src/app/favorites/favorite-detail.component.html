@@ -1,0 +1,11 @@
+<ActionBar class="action-bar">
+    <NavigationButton text="Atrás" (tap)="onBack()"></NavigationButton>
+    <Label class="action-bar-title" text="Detalle de Favorito"></Label>
+</ActionBar>
+
+<GridLayout class="page__content">
+    <StackLayout verticalAlignment="center">
+        <Label class="page__content-placeholder" text="Información Detallada del Favorito"></Label>
+        <Button text="Volver" (tap)="onBack()" class="btn btn-primary"></Button>
+    </StackLayout>
+</GridLayout>

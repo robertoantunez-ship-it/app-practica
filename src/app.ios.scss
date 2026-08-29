@@ -1,0 +1,10 @@
+// Import common styles
+@import 'app-common';
+
+// Place any CSS rules you want to apply only on iOS here
+.platform-title {
+    color: #007aff;
+    font-size: 18;
+    font-weight: bold;
+    text-align: center;
+}
