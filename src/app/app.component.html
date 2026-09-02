@@ -57,6 +57,16 @@
           <Label col="0" text="🎯" class="nt-icon fas"></Label>
           <Label col="1" text="Favoritos" class="p-r-10"></Label>
         </GridLayout>
+
+        <GridLayout
+          columns="auto, *"
+          class="nt-drawer__list-item"
+          [class.-selected]="isComponentSelected('/hoteles')"
+          (tap)="onNavItemTap('/hoteles')"
+        >
+          <Label col="0" text="🏨" class="nt-icon fas"></Label>
+          <Label col="1" text="Hoteles" class="p-r-10"></Label>
+        </GridLayout>
         
         <StackLayout class="hr"></StackLayout>
 

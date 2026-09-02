@@ -1,0 +1,40 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="hidden"></NavigationButton>
+    <GridLayout columns="50, *, auto">
+        <Label col="0" class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
+        <Label col="1" class="action-bar-title" text="Hoteles"></Label>
+        <Label col="2" text="➕ Agregar" (tap)="onRefresh()" class="p-r-10 text-primary"></Label>
+    </GridLayout>
+</ActionBar>
+
+<GridLayout>
+    <!-- ============================================================= -->
+    <!-- MODO PREVIEW (ACTIVO): Usa StackLayout para evitar fallos     -->
+    <!-- ============================================================= -->
+    <StackLayout>
+
+    <!-- ============================================================= -->
+    <!-- MODO ENTREGA FINAL (DESCOMENTAR SOLO PARA "ns run android"):  -->
+    <!-- <PullToRefresh (refresh)="onPull($event)">                   -->
+    <!-- ============================================================= -->
+
+        <ListView [items]="hotels" (itemTap)="onItemTap($event)" class="list-group">
+            <ng-template let-item="item">
+                <FlexboxLayout flexDirection="row" class="list-group-item p-10 align-items-center">
+                    <Image [src]="item.imagen" width="50" height="50" class="m-r-10 img-circle" flexShrink="0"></Image>
+                    
+                    <StackLayout verticalAlignment="center" flexGrow="1" flexShrink="1" class="m-r-5">
+                        <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
+                        <Label [text]="item.ubicacion + ' | ' + item.categoria" class="body text-muted"></Label>
+                    </StackLayout>
+
+                    <Label text="👆" (longPress)="onLongPressItem($event, item)" class="h2 p-5 m-r-5" flexShrink="0"></Label>
+                    <Label text="🏷️" (tap)="onSelectCategory(item, $event)" class="h2 p-5 m-r-5" flexShrink="0"></Label>
+                    <Label text="🗑️" (tap)="onDeleteHotel(item, $event)" class="h2 p-5" flexShrink="0"></Label>
+                </FlexboxLayout>
+            </ng-template>
+        </ListView>
+
+    </StackLayout>
+    <!-- </PullToRefresh> -->
+</GridLayout>

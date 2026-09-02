@@ -1,0 +1,59 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="hidden"></NavigationButton>
+    <GridLayout columns="50, *">
+        <Label col="0" text="⬅️" (tap)="onBack()" class="h2 p-l-10"></Label>
+        <Label col="1" class="action-bar-title" text="Editar Hotel"></Label>
+    </GridLayout>
+</ActionBar>
+
+<ScrollView>
+    <StackLayout class="p-15">
+        
+        <!-- Sección Formulario de Edición (Puntos 8 y 9) -->
+        <Label text="Edición de Datos Básicos" class="h2 font-weight-bold m-b-10 text-primary"></Label>
+
+        <!-- Campo Nombre con Variable de Vista #nombreField, Requerido y Directiva minLen -->
+        <Label text="Nombre del Hotel (Mínimo 5 letras):" class="font-weight-bold m-t-5"></Label>
+        <TextField #nombreField
+                   #nombreModel="ngModel"
+                   [(ngModel)]="nombreHotel"
+                   required
+                   [minLen]="5"
+                   hint="Ingrese el nombre"
+                   class="input p-10 m-b-5">
+        </TextField>
+
+        <!-- Mensajes de Error de Validación (Puntos 10 y 11) -->
+        <StackLayout *ngIf="nombreModel.invalid && (nombreModel.dirty || nombreModel.touched)" class="m-b-10">
+            <Label *ngIf="nombreModel.errors?.required" text="⚠️ El nombre es un campo obligatorio." class="text-danger"></Label>
+            <Label *ngIf="nombreModel.errors?.minLen" text="⚠️ Debe tener al menos 5 caracteres." class="text-danger"></Label>
+        </StackLayout>
+
+        <!-- Campo Descripción de Tipo String -->
+        <Label text="Descripción:" class="font-weight-bold m-t-5"></Label>
+        <TextField [(ngModel)]="descripcionHotel" hint="Ingrese la descripción" class="input p-10 m-b-10"></TextField>
+
+        <!-- Botones de Acción y Prueba de ViewChild -->
+        <GridLayout columns="*, *" class="m-b-20">
+            <Button col="0" text="🎯 Cambiar nombre" (tap)="onFocusNombre()" class="btn btn-outline m-r-5"></Button>
+            <Button col="1" text="💾 Guardar" (tap)="onGuardarCambios(!nombreModel.invalid)" class="btn btn-primary m-l-5"></Button>
+        </GridLayout>
+
+        <!-- Sección Opiniones -->
+        <Label text="Opiniones de Huéspedes" class="h2 font-weight-bold m-t-15 m-b-10"></Label>
+        <ListView [items]="opiniones" class="list-group" height="300">
+            <ng-template let-item="item">
+                <GridLayout columns="auto, *, auto" rows="auto, 25" verticalAlignment="top" backgroundColor="lightgray" class="m-b-10 p-5">
+                    <Image [src]="item.imagen" rowSpan="2" width="60" height="60" margin="3" verticalAlignment="top"></Image>
+                    <Label [text]="item.comentario" textWrap="true" col="1" colSpan="2" minHeight="40" fontSize="16" margin="3"></Label>
+                    <Label [text]="'Usuario: ' + item.usuario" col="1" row="1" fontSize="12" horizontalAlignment="left" verticalAlignment="bottom" margin="3"></Label>
+                    <StackLayout orientation="horizontal" col="2" row="1" horizontalAlignment="right" verticalAlignment="bottom">
+                        <Label [text]="'Puntaje: ' + item.puntaje" color="#10C2B0" fontSize="12" margin="3"></Label>
+                        <Label [text]="item.votoPositivo ? '👍' : '👎'" fontSize="16" margin="3" (tap)="onToggleVote(item)"></Label>
+                    </StackLayout>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+
+    </StackLayout>
+</ScrollView>

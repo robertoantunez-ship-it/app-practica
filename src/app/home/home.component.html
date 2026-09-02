@@ -1,13 +1,40 @@
 <ActionBar class="action-bar">
-  <NavigationButton visibility="hidden"></NavigationButton>
-  <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Home" colSpan="2"></Label>
-
-    <Label class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
-  </GridLayout>
+    <NavigationButton visibility="hidden"></NavigationButton>
+    <GridLayout columns="50, *">
+        <Label col="0" class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
+        <Label col="1" class="action-bar-title" text="Inicio"></Label>
+    </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="🐸"></Label>
-  <Label class="page__content-placeholder" text="Bienvenido" style="font-weight: bold;"></Label>
-</GridLayout>
+<ScrollView>
+    <StackLayout class="page p-20" verticalAlignment="center" horizontalAlignment="center">
+        
+      
+        <StackLayout class="m-b-30" horizontalAlignment="center">
+            <Image src="~/assets/logo_r.png" 
+                   width="250" 
+                   height="250" 
+                   class="img-circle"
+                   style="border-width: 5; border-color: #4CAF50; background-color: #C8E6C9;"
+                   (tap)="onAnimarRana($event)"
+                   (longPress)="onSuperSaltoRana($event)">
+            </Image>
+            <Label text=" Tócame o mantén presionado" class="text-center font-weight-bold m-t-10 h4"></Label>
+        </StackLayout>
+
+        <Label text="¡Bienvenido!" class="h2 text-center font-weight-bold m-b-20"></Label>
+
+        
+        <StackLayout class="card p-15" style="background-color: #e8f5e9; border-radius: 12; width: 100%;">
+            <Label text="💡 Instrucciones de interacción:" class="h3 font-weight-bold m-b-10 text-center" style="color: #2e7d32;" textWrap="true"></Label>
+                      
+
+            <FlexboxLayout flexDirection="row" flexWrap="wrap" class="align-items-center">
+                <Label text="👆 " class="h2 m-r-10"></Label>
+                <Label text="Mantener presionado: " class="font-weight-bold h4"></Label>
+                <Label text="Super salto elástico con giro 360° y cambio de color." class="h4" textWrap="true"></Label>
+            </FlexboxLayout>
+        </StackLayout>
+
+    </StackLayout>
+</ScrollView>

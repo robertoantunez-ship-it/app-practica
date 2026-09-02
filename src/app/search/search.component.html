@@ -2,12 +2,29 @@
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
     <Label class="action-bar-title" text="Search" colSpan="2"></Label>
-
     <Label class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="🔍"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
+<GridLayout rows="auto, *">
+  <!-- SearchBar con Two-Way Binding [(ngModel)] (Puntos 4 y 7) -->
+  <SearchBar row="0" 
+            hint="Buscar por nombre o categoría..." 
+            [(ngModel)]="searchText" 
+            (textChange)="onSearchTextChange()" 
+            class="m-10">
+  </SearchBar>
+
+  <!-- ListView con plantilla anidada en FlexboxLayout (Requisito de Evaluación) -->
+  <ListView row="1" [items]="filteredItems" class="list-group">
+    <ng-template let-item="item">
+      <FlexboxLayout flexDirection="row" class="list-group-item p-10 align-items-center">
+        <Image [src]="item.imagen" width="60" height="60" class="m-r-10 img-circle" stretch="aspectFill"></Image>
+        <StackLayout verticalAlignment="center">
+          <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
+          <Label [text]="'Categoría: ' + item.categoria" class="body text-muted"></Label>
+        </StackLayout>
+      </FlexboxLayout>
+    </ng-template>
+  </ListView>
 </GridLayout>

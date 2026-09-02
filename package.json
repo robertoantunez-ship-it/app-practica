@@ -12,9 +12,11 @@
     "@angular/platform-browser": "~22.0.0",
     "@angular/platform-browser-dynamic": "~22.0.0",
     "@angular/router": "~22.0.0",
+    "@nativescript-community/ui-pulltorefresh": "^2.5.11",
     "@nativescript/angular": "~22.0.0",
     "@nativescript/core": "~9.1.0",
     "@nativescript/theme": "^3.1.0",
+    "nativescript-pulltorefresh": "^2.3.0",
     "nativescript-ui-sidedrawer": "^15.2.4",
     "rxjs": "~7.8.0",
     "zone.js": "~0.16.0"

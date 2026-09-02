@@ -1,7 +1,9 @@
 <ActionBar class="action-bar">
-    <NavigationButton ios:visibility="collapsed" icon="res://logo" (tap)="onDrawerButtonTap()"></NavigationButton>
-    <ActionItem icon="res://logo" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
-    <Label class="action-bar-title" text="Favoritos"colSpan="2"></Label>
+    <NavigationButton visibility="hidden"></NavigationButton>
+    <GridLayout columns="50, *">
+        <Label col="0" class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
+        <Label col="1" class="action-bar-title" text="Favoritos" verticalAlignment="center"></Label>
+    </GridLayout>
 </ActionBar>
 
 <GridLayout class="page__content">

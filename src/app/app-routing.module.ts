@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core'
 import { Routes } from '@angular/router'
 import { NativeScriptRouterModule } from '@nativescript/angular'
+import { HotelesComponent } from './hoteles/hoteles.component'
+import { HotelDetalleComponent } from './hoteles/hotel-detalle.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,9 +26,13 @@ const routes: Routes = [
     path: 'settings',
     loadChildren: () => import('~/app/settings/settings.module').then((m) => m.SettingsModule),
   },
-  { path: 'favorites', 
+  { 
+    path: 'favorites', 
     loadChildren: () => import('./favorites/favorites.module').then((m) => m.FavoritesModule),
-   },
+  },
+  { path: 'hoteles', component: HotelesComponent },
+  { path: 'hoteles/detalle/:id', component: HotelDetalleComponent }
+  
 ]
 
 @NgModule({

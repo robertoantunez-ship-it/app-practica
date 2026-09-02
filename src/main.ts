@@ -1,6 +1,9 @@
 import '@angular/compiler';
 import { platformNativeScript, runNativeScriptAngularApp } from '@nativescript/angular';
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+import { registerElement } from "@nativescript/angular";
+
+registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
 
 
 // Parche directo sobre RadSideDrawer para habilitar la escritura de _isRootView
