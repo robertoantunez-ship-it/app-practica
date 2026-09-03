@@ -1,16 +1,34 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer'
 import { Application, View, Color, Dialogs } from '@nativescript/core'
+import { ReduxStore } from '../store/redux-store'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'Home',
   templateUrl: './home.component.html',
   standalone: false
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  listaLeerAhora: any[] = []
+  private reduxSub!: Subscription
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Suscripción reactiva al Store de Redux
+    const store = ReduxStore.getInstance()
+    this.reduxSub = store.select('leerAhora').subscribe((elementos) => {
+      this.listaLeerAhora = elementos
+    })
+  }
+
+  ngOnDestroy(): void {
+    // Limpieza de suscripción para liberar memoria
+    if (this.reduxSub) {
+      this.reduxSub.unsubscribe()
+    }
+  }
 
   onDrawerButtonTap(): void {
     const sideDrawer = <RadSideDrawer>Application.getRootView()

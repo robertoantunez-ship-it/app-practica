@@ -1,8 +1,9 @@
-import { Component, OnInit, NO_ERRORS_SCHEMA } from "@angular/core";
+import { Component, OnInit, OnDestroy, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule, RouterExtensions, registerElement } from "@nativescript/angular";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import { Application, Dialogs, isAndroid, Utils, View, Color, AnimationCurve } from "@nativescript/core";
 import { HotelService, Hotel } from "./hotel.service";
+import { Subscription } from "rxjs";
 
 // =========================================================================
 // MODO ENTREGA FINAL:
@@ -17,8 +18,9 @@ import { HotelService, Hotel } from "./hotel.service";
     imports: [NativeScriptCommonModule],
     schemas: [NO_ERRORS_SCHEMA]
 })
-export class HotelesComponent implements OnInit {
+export class HotelesComponent implements OnInit, OnDestroy {
     hotels: Hotel[] = [];
+    private hotelsSubscription!: Subscription;
 
     constructor(
         private routerExtensions: RouterExtensions,
@@ -26,11 +28,17 @@ export class HotelesComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.cargarHoteles();
+        // Suscripción reactiva: cualquier actualización en HotelService se refleja aquí al instante
+        this.hotelsSubscription = this.hotelService.hotels$.subscribe((listaHoteles) => {
+            this.hotels = listaHoteles.filter(h => !h.archivado);
+        });
     }
 
-    cargarHoteles(): void {
-        this.hotels = this.hotelService.getHotels();
+    ngOnDestroy(): void {
+        // Cancela la suscripción al destruir el componente para liberar memoria
+        if (this.hotelsSubscription) {
+            this.hotelsSubscription.unsubscribe();
+        }
     }
 
     onDrawerButtonTap(): void {
@@ -70,11 +78,9 @@ export class HotelesComponent implements OnInit {
             }).then((result) => {
                 if (result === "borrar") {
                     this.hotelService.deleteHotel(hotel.id);
-                    this.cargarHoteles();
                     Dialogs.alert({ title: "Acción Ejecutada", message: "Se eliminó el elemento", okButtonText: "OK" });
                 } else if (result === "archivar") {
                     this.hotelService.archiveHotel(hotel.id);
-                    this.cargarHoteles();
                     Dialogs.alert({ title: "Acción Ejecutada", message: "Se archivó el elemento", okButtonText: "OK" });
                 }
             });
@@ -92,8 +98,7 @@ export class HotelesComponent implements OnInit {
             actions: ["Lujo", "Económico", "Boutique", "Playa"]
         }).then((result) => {
             if (result && result !== "Cancelar") {
-                this.hotelService.updateHotel(hotel.id, hotel.nombre, hotel.descripcion, result);
-                this.cargarHoteles();
+                this.hotelService.updateHotel(hotel.id, hotel.nombre, hotel.descripcion || '', result);
                 this.showToast(`Categoría cambiada a ${result}`);
             }
         });
@@ -105,7 +110,6 @@ export class HotelesComponent implements OnInit {
         }
 
         this.hotelService.deleteHotel(hotel.id);
-        this.cargarHoteles();
         Dialogs.alert({
             title: "Acción Ejecutada",
             message: `Se eliminó el elemento: ${hotel.nombre}`,
@@ -122,10 +126,8 @@ export class HotelesComponent implements OnInit {
         }
     }
 
-    // Método listo para funcionar tanto en botón "➕ Agregar" como en PullToRefresh
     onRefresh(): void {
         this.hotelService.addHotel();
-        this.cargarHoteles();
     }
 
     onPull(e: any): void {

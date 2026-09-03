@@ -1,13 +1,21 @@
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Browse" colSpan="2"></Label>
-
+    <Label class="action-bar-title" text="Settings / Ajustes" colSpan="2"></Label>
     <Label class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon far" text="🔍"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<ScrollView>
+  <StackLayout class="p-15">
+    <Label text="Configuración de Usuario" class="h1 font-weight-bold m-b-10"></Label>
+    <Label text="Este nombre se mantiene guardado persistentemente en el dispositivo mediante ApplicationSettings." class="body text-muted m-b-20" textWrap="true"></Label>
+
+    <StackLayout class="form p-15" style="background-color: #f5f5f5; border-radius: 8;">
+      <Label text="Nombre de Usuario:" class="font-weight-bold m-b-5"></Label>
+      <TextField [(ngModel)]="username" hint="Ingresa tu nombre..." class="input input-border m-b-15 p-10"></TextField>
+      
+      <Button text="💾 Guardar Ajustes" (tap)="guardarNombreUsuario()" class="btn btn-primary"></Button>
+    </StackLayout>
+  </StackLayout>
+</ScrollView>

@@ -6,25 +6,45 @@
   </GridLayout>
 </ActionBar>
 
-<GridLayout rows="auto, *">
-  <!-- SearchBar con Two-Way Binding [(ngModel)] (Puntos 4 y 7) -->
+<GridLayout rows="auto, auto, *">
+  <!-- SearchBar -->
   <SearchBar row="0" 
-            hint="Buscar por nombre o categoría..." 
+            hint="Buscar por nombre, ciudad o categoría..." 
             [(ngModel)]="searchText" 
             (textChange)="onSearchTextChange()" 
             class="m-10">
   </SearchBar>
 
-  <!-- ListView con plantilla anidada en FlexboxLayout (Requisito de Evaluación) -->
-  <ListView row="1" [items]="filteredItems" class="list-group">
-    <ng-template let-item="item">
-      <FlexboxLayout flexDirection="row" class="list-group-item p-10 align-items-center">
-        <Image [src]="item.imagen" width="60" height="60" class="m-r-10 img-circle" stretch="aspectFill"></Image>
-        <StackLayout verticalAlignment="center">
-          <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
-          <Label [text]="'Categoría: ' + item.categoria" class="body text-muted"></Label>
-        </StackLayout>
-      </FlexboxLayout>
-    </ng-template>
-  </ListView>
+  <!-- Historial de Búsquedas Recientes (ApplicationSettings) -->
+  <StackLayout row="1" class="p-x-10 m-b-10" *ngIf="historialBusquedas.length > 0">
+    <GridLayout columns="*, auto" class="m-b-5">
+      <Label text="Búsquedas recientes:" class="font-weight-bold body text-muted" col="0"></Label>
+      <Label text="Limpiar" class="body text-danger" col="1" (tap)="limpiarHistorial()"></Label>
+    </GridLayout>
+    <WrapLayout>
+      <Button *ngFor="let item of historialBusquedas" 
+              [text]="item" 
+              (tap)="seleccionarDelHistorial(item)" 
+              class="btn btn-outline m-r-5 m-b-5 p-2" 
+              style="border-radius: 15; font-size: 12; height: 35;">
+      </Button>
+    </WrapLayout>
+  </StackLayout>
+
+  <!-- Lista de Hoteles -->
+  <ListView row="2" [items]="filteredItems" class="list-group">
+  <ng-template let-item="item">
+    <GridLayout columns="60, *, auto" class="list-group-item p-10 align-items-center">
+      <Image col="0" [src]="item.imagen || 'res://logo'" width="50" height="50" class="m-r-10 img-circle" stretch="aspectFill"></Image>
+      
+      <StackLayout col="1" verticalAlignment="center">
+        <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
+        <Label [text]="item.ciudad ? ('Ciudad: ' + item.ciudad) : ('Categoría: ' + item.categoria)" class="body text-muted"></Label>
+      </StackLayout>
+
+      <!-- Ícono/Botón de Favorito -->
+      <Button col="2" text="⭐" (tap)="agregarAFavoritos(item)" class="btn btn-outline p-5" style="font-size: 16;"></Button>
+    </GridLayout>
+  </ng-template>
+</ListView>
 </GridLayout>

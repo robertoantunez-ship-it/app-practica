@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer'
-import { Application } from '@nativescript/core'
+import { Application, ApplicationSettings } from '@nativescript/core'
+import { HotelService } from '../hoteles/hotel.service'
+import { ReduxStore, ADD_FAVORITE } from '../store/redux-store';
+import { Dialogs } from '@nativescript/core';
+
 
 @Component({
   selector: 'Search',
@@ -9,36 +13,17 @@ import { Application } from '@nativescript/core'
 })
 export class SearchComponent implements OnInit {
   searchText: string = ''
-
-  // Lista con 3 orígenes de imágenes distintos (res://, https:// y ~/)
-  allItems = [
-    { 
-      id: 1, 
-      nombre: 'Hotel Plaza Central', 
-      categoria: 'Lujo', 
-      imagen: 'res://logo' 
-    },
-    { 
-      id: 2, 
-      nombre: 'Hostal del Sol', 
-      categoria: 'Económico', 
-      imagen: 'https://picsum.photos/id/10/200/200' 
-    },
-    { 
-      id: 3, 
-      nombre: 'Resort Gran Mar', 
-      categoria: 'Playa', 
-      imagen: '~/assets/logo.png' 
-    }
-  ]
-
-  // Arreglo para almacenar los resultados del filtrado
   filteredItems: Array<any> = []
+  cargando: boolean = false
+  historialBusquedas: string[] = []
 
-  constructor() {}
+  private readonly HISTORIAL_KEY = 'historial_busquedas_key'
+
+  constructor(private hotelService: HotelService) {}
 
   ngOnInit(): void {
-    this.filteredItems = [...this.allItems]
+    this.cargarHistorial()
+    this.ejecutarBusqueda()
   }
 
   onDrawerButtonTap(): void {
@@ -47,14 +32,79 @@ export class SearchComponent implements OnInit {
   }
 
   onSearchTextChange(): void {
-    if (!this.searchText || this.searchText.trim() === '') {
-      this.filteredItems = [...this.allItems]
-    } else {
-      const query = this.searchText.toLowerCase()
-      this.filteredItems = this.allItems.filter((item) => 
-        item.nombre.toLowerCase().includes(query) || 
-        item.categoria.toLowerCase().includes(query)
-      )
+    this.ejecutarBusqueda()
+  }
+
+  ejecutarBusqueda(): void {
+    this.cargando = true
+    const query = this.searchText.trim()
+
+    if (query !== '') {
+      this.guardarEnHistorial(query)
+    }
+
+    this.hotelService.buscarHotelesRemoto(this.searchText).subscribe({
+      next: (data) => {
+        this.filteredItems = data
+        this.cargando = false
+      },
+      error: (err) => {
+        console.error('Error Status:', err.status)
+        console.error('Error Message:', err.message)
+        this.cargando = false
+      }
+    })
+  }
+
+  // --- PERSISTENCIA CON ApplicationSettings ---
+
+  cargarHistorial(): void {
+    const guardado = ApplicationSettings.getString(this.HISTORIAL_KEY)
+    if (guardado) {
+      try {
+        this.historialBusquedas = JSON.parse(guardado)
+      } catch (e) {
+        this.historialBusquedas = []
+      }
     }
   }
+
+  guardarEnHistorial(termino: string): void {
+    // Evita duplicados y guarda únicamente las últimas 5 búsquedas
+    this.historialBusquedas = this.historialBusquedas.filter(
+      (item) => item.toLowerCase() !== termino.toLowerCase()
+    )
+    this.historialBusquedas.unshift(termino)
+
+    if (this.historialBusquedas.length > 5) {
+      this.historialBusquedas = this.historialBusquedas.slice(0, 5)
+    }
+
+    // Persistir como cadena de texto JSON en el dispositivo
+    ApplicationSettings.setString(
+      this.HISTORIAL_KEY,
+      JSON.stringify(this.historialBusquedas)
+    )
+  }
+
+  seleccionarDelHistorial(termino: string): void {
+    this.searchText = termino
+    this.ejecutarBusqueda()
+  }
+
+  limpiarHistorial(): void {
+    this.historialBusquedas = []
+    ApplicationSettings.remove(this.HISTORIAL_KEY)
+  }
+  // Dentro de la clase SearchComponent:
+agregarAFavoritos(hotel: any): void {
+    const store = ReduxStore.getInstance();
+    store.dispatch({ type: ADD_FAVORITE, payload: hotel });
+
+    Dialogs.alert({
+        title: "Favoritos",
+        message: `"${hotel.nombre}" agregado a tus favoritos.`,
+        okButtonText: "OK"
+    });
+}
 }

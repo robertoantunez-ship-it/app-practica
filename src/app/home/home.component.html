@@ -1,40 +1,41 @@
 <ActionBar class="action-bar">
-    <NavigationButton visibility="hidden"></NavigationButton>
-    <GridLayout columns="50, *">
-        <Label col="0" class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
-        <Label col="1" class="action-bar-title" text="Inicio"></Label>
-    </GridLayout>
+  <NavigationButton visibility="hidden"></NavigationButton>
+  <GridLayout columns="50, *">
+    <Label col="0" class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
+    <Label col="1" class="action-bar-title" text="Inicio" verticalAlignment="center"></Label>
+  </GridLayout>
 </ActionBar>
 
-<ScrollView>
-    <StackLayout class="page p-20" verticalAlignment="center" horizontalAlignment="center">
-        
+<ScrollView class="page__content">
+  <StackLayout class="p-15">
+    
+    <!-- 1. Sección interactiva de la Rana -->
+    <StackLayout class="card p-20 m-b-20 text-center" style="background-color: #e8f5e9; border-radius: 10;">
+      <Label text="¡Interactúa con la rana! 🐸" class="h2 font-weight-bold m-b-5" style="color: #1b5e20;"></Label>
+      <Label text="Toca (Tap) o mantén presionado (LongPress)" class="body m-b-15" style="color: #2e7d32;" textWrap="true"></Label>
       
-        <StackLayout class="m-b-30" horizontalAlignment="center">
-            <Image src="~/assets/logo_r.png" 
-                   width="250" 
-                   height="250" 
-                   class="img-circle"
-                   style="border-width: 5; border-color: #4CAF50; background-color: #C8E6C9;"
-                   (tap)="onAnimarRana($event)"
-                   (longPress)="onSuperSaltoRana($event)">
-            </Image>
-            <Label text=" Tócame o mantén presionado" class="text-center font-weight-bold m-t-10 h4"></Label>
-        </StackLayout>
-
-        <Label text="¡Bienvenido!" class="h2 text-center font-weight-bold m-b-20"></Label>
-
-        
-        <StackLayout class="card p-15" style="background-color: #e8f5e9; border-radius: 12; width: 100%;">
-            <Label text="💡 Instrucciones de interacción:" class="h3 font-weight-bold m-b-10 text-center" style="color: #2e7d32;" textWrap="true"></Label>
-                      
-
-            <FlexboxLayout flexDirection="row" flexWrap="wrap" class="align-items-center">
-                <Label text="👆 " class="h2 m-r-10"></Label>
-                <Label text="Mantener presionado: " class="font-weight-bold h4"></Label>
-                <Label text="Super salto elástico con giro 360° y cambio de color." class="h4" textWrap="true"></Label>
-            </FlexboxLayout>
-        </StackLayout>
-
+      <Label text="🐸" style="font-size: 60;" (tap)="onAnimarRana($event)" (longPress)="onSuperSaltoRana($event)"></Label>
     </StackLayout>
+
+    <!-- 2. Sección reactiva de Redux (Lecturas seleccionadas) -->
+    <StackLayout class="m-t-10">
+      <Label text="Lecturas Seleccionadas (Redux)" class="h2 font-weight-bold m-b-5" style="color: #212121;"></Label>
+      <Label text="Lista actualizada automáticamente desde el Store al pulsar 'Leer ahora':" class="body m-b-15" style="color: #424242;" textWrap="true"></Label>
+
+      <!-- Estado vacío -->
+      <StackLayout *ngIf="listaLeerAhora.length === 0" class="p-20 text-center" style="background-color: #f8f9fa; border-radius: 8; border-width: 1; border-color: #e0e0e0;">
+        <Label text="📖" style="font-size: 30;" class="m-b-5"></Label>
+        <Label text="Aún no has presionado 'Leer ahora' en ningún favorito." style="color: #616161;" textWrap="true"></Label>
+      </StackLayout>
+
+      <!-- Lista enviada desde Redux -->
+      <StackLayout *ngFor="let item of listaLeerAhora" class="card p-15 m-b-10" style="background-color: #ffffff; border-radius: 8; border-width: 1; border-color: #e0e0e0;">
+        <!-- Título en azul marino oscuro (#0d47a1) en lugar de azul cielo -->
+        <Label [text]="'📖 ' + (item.nombre || item.name)" class="h3 font-weight-bold m-b-5" style="color: #0d47a1;" textWrap="true"></Label>
+        <!-- Descripción en gris carbón oscuro (#37474f) -->
+        <Label [text]="item.descripcion || item.categoria || item.ciudad || 'Elemento listo para lectura.'" class="body" style="color: #37474f;" textWrap="true"></Label>
+      </StackLayout>
+    </StackLayout>
+
+  </StackLayout>
 </ScrollView>
