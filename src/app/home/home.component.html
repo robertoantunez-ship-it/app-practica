@@ -12,15 +12,15 @@
     <!-- 1. Sección interactiva de la Rana -->
     <StackLayout class="card p-20 m-b-20 text-center" style="background-color: #e8f5e9; border-radius: 10;">
       <Label text="¡Interactúa con la rana! 🐸" class="h2 font-weight-bold m-b-5" style="color: #1b5e20;"></Label>
-      <Label text="Toca (Tap) o mantén presionado (LongPress)" class="body m-b-15" style="color: #2e7d32;" textWrap="true"></Label>
+      <Label text="Toca o mantén presionado" class="body m-b-15" style="color: #2e7d32;" textWrap="true"></Label>
       
       <Label text="🐸" style="font-size: 60;" (tap)="onAnimarRana($event)" (longPress)="onSuperSaltoRana($event)"></Label>
     </StackLayout>
 
     <!-- 2. Sección reactiva de Redux (Lecturas seleccionadas) -->
     <StackLayout class="m-t-10">
-      <Label text="Lecturas Seleccionadas (Redux)" class="h2 font-weight-bold m-b-5" style="color: #212121;"></Label>
-      <Label text="Lista actualizada automáticamente desde el Store al pulsar 'Leer ahora':" class="body m-b-15" style="color: #424242;" textWrap="true"></Label>
+      <Label text="Opiniones de los huespedes" class="h2 font-weight-bold m-b-5" style="color: #212121;"></Label>
+      <Label text="Lista actualizada" class="body m-b-15" style="color: #424242;" textWrap="true"></Label>
 
       <!-- Estado vacío -->
       <StackLayout *ngIf="listaLeerAhora.length === 0" class="p-20 text-center" style="background-color: #f8f9fa; border-radius: 8; border-width: 1; border-color: #e0e0e0;">

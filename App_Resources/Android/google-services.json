@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140021301564",
+    "project_id": "app-practica-coursera-hoteles",
+    "storage_bucket": "app-practica-coursera-hoteles.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140021301564:android:45e59e4852a322aad81e39",
+        "android_client_info": {
+          "package_name": "org.nativescript.mydrawerng"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMiu3AiUn9wVtpknJlK8DtJpVjfJ8wGuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

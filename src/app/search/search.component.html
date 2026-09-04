@@ -1,13 +1,13 @@
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Search" colSpan="2"></Label>
+    <Label class="action-bar-title" text="Búsqueda y Mapa" colSpan="2"></Label>
     <Label class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout rows="auto, auto, *">
-  <!-- SearchBar -->
+<GridLayout rows="auto, auto, 200, *">
+  <!-- Fila 0: SearchBar -->
   <SearchBar row="0" 
             hint="Buscar por nombre, ciudad o categoría..." 
             [(ngModel)]="searchText" 
@@ -15,7 +15,7 @@
             class="m-10">
   </SearchBar>
 
-  <!-- Historial de Búsquedas Recientes (ApplicationSettings) -->
+  <!-- Fila 1: Historial de Búsquedas Recientes (ApplicationSettings) -->
   <StackLayout row="1" class="p-x-10 m-b-10" *ngIf="historialBusquedas.length > 0">
     <GridLayout columns="*, auto" class="m-b-5">
       <Label text="Búsquedas recientes:" class="font-weight-bold body text-muted" col="0"></Label>
@@ -31,20 +31,31 @@
     </WrapLayout>
   </StackLayout>
 
-  <!-- Lista de Hoteles -->
-  <ListView row="2" [items]="filteredItems" class="list-group">
-  <ng-template let-item="item">
-    <GridLayout columns="60, *, auto" class="list-group-item p-10 align-items-center">
-      <Image col="0" [src]="item.imagen || 'res://logo'" width="50" height="50" class="m-r-10 img-circle" stretch="aspectFill"></Image>
-      
-      <StackLayout col="1" verticalAlignment="center">
-        <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
-        <Label [text]="item.ciudad ? ('Ciudad: ' + item.ciudad) : ('Categoría: ' + item.categoria)" class="body text-muted"></Label>
-      </StackLayout>
+  <!-- Fila 2: Google Maps SDK -->
+  <MapView
+    row="2"
+    [latitude]="latitude"
+    [longitude]="longitude"
+    [zoom]="zoom"
+    (mapReady)="onMapReady($event)"
+    class="m-x-10 m-b-10"
+    style="border-radius: 8;">
+  </MapView>
 
-      <!-- Ícono/Botón de Favorito -->
-      <Button col="2" text="⭐" (tap)="agregarAFavoritos(item)" class="btn btn-outline p-5" style="font-size: 16;"></Button>
-    </GridLayout>
-  </ng-template>
-</ListView>
+  <!-- Fila 3: Lista de Hoteles -->
+  <ListView row="3" [items]="filteredItems" class="list-group">
+    <ng-template let-item="item">
+      <GridLayout columns="60, *, auto" class="list-group-item p-10 align-items-center">
+        <Image col="0" [src]="item.imagen || 'res://logo'" width="50" height="50" class="m-r-10 img-circle" stretch="aspectFill"></Image>
+        
+        <StackLayout col="1" verticalAlignment="center">
+          <Label [text]="item.nombre" class="h3 font-weight-bold"></Label>
+          <Label [text]="item.ciudad ? ('Ciudad: ' + item.ciudad) : ('Categoría: ' + item.categoria)" class="body text-muted"></Label>
+        </StackLayout>
+
+        <!-- Ícono/Botón de Favorito -->
+        <Button col="2" text="⭐" (tap)="agregarAFavoritos(item)" class="btn btn-outline p-5" style="font-size: 16;"></Button>
+      </GridLayout>
+    </ng-template>
+  </ListView>
 </GridLayout>

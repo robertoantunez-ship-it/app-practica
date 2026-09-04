@@ -16,7 +16,12 @@
     "@nativescript/angular": "~22.0.0",
     "@nativescript/core": "~9.1.0",
     "@nativescript/theme": "^3.1.0",
+    "@nativescript/unit-test-runner": "^4.0.0",
+    "nativescript-camera": "^4.5.0",
+    "nativescript-google-maps-sdk": "^3.0.2",
+    "nativescript-plugin-firebase": "^10.6.3",
     "nativescript-pulltorefresh": "^2.3.0",
+    "nativescript-social-share": "^1.6.0",
     "nativescript-ui-sidedrawer": "^15.2.4",
     "rxjs": "~7.8.0",
     "zone.js": "~0.16.0"
@@ -24,10 +29,18 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~22.0.0",
     "@angular/compiler-cli": "~22.0.0",
+    "@jsdevtools/coverage-istanbul-loader": "3.0.5",
     "@nativescript/preview-cli": "1.0.15",
     "@nativescript/types": "~9.0.0",
     "@nativescript/webpack": "~5.0.25",
     "@ngtools/webpack": "~22.0.0",
+    "@types/jasmine": "6.0.0",
+    "karma": "6.4.4",
+    "karma-coverage": "2.2.1",
+    "karma-jasmine": "4.0.2",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-nativescript-launcher": "1.0.0",
+    "nyc": "18.0.0",
     "typescript": "~6.0.0"
   }
 }

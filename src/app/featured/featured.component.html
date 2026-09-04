@@ -1,13 +1,27 @@
 <ActionBar class="action-bar">
-  <NavigationButton visibility="hidden"></NavigationButton>
-  <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Featured" colSpan="2"></Label>
-
-    <Label class="fas" text="Ⓜ️" (tap)="onDrawerButtonTap()"></Label>
-  </GridLayout>
+  <ActionItem text=" ☰ " (tap)="onDrawerButtonTap()" ios.position="left" android.position="actionBar"></ActionItem>
+  <Label class="action-bar-title" text="Cámara y Social"></Label>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="📕"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<ScrollView>
+  <StackLayout class="page__content p-20">
+    <Label text="Comparte tu experiencia" class="h1 text-center m-b-20"></Label>
+
+    <!-- Botón 1: Cámara -->
+    <Button text="📷 Tomar Fotografía" (tap)="onTakePicture()" class="btn btn-primary m-b-10"></Button>
+
+    <!-- Previsualización -->
+    <StackLayout class="m-v-15 text-center" *ngIf="capturedImage">
+      <Label text="Última foto tomada:" class="h3 m-b-5"></Label>
+      <Image [src]="capturedImage" stretch="aspectFit" height="250" class="img-rounded"></Image>
+    </StackLayout>
+
+    <StackLayout class="hr-light m-v-20"></StackLayout>
+
+    <!-- Botón 2: Compartir Texto -->
+    <Button text="💬 Comparte un comentario" (tap)="onShareText()" class="btn btn-outline m-b-10"></Button>
+
+    <!-- Botón 3: Compartir Imagen -->
+    <Button text="📤 Comparte tu foto" (tap)="onShareImage()" [isEnabled]="!!capturedImage" class="btn btn-outline"></Button>
+  </StackLayout>
+</ScrollView>
